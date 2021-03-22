@@ -22,11 +22,11 @@ describe('Todos', () => {
       })
       .set('username', userResponse.body.username);
 
-    const response = await request(app)
+    const res = await request(app)
       .get('/todos')
       .set('username', userResponse.body.username);
 
-    expect(response.body).toEqual(
+    expect(res.body).toEqual(
       expect.arrayContaining([
         todoResponse.body
       ]),
@@ -43,7 +43,7 @@ describe('Todos', () => {
 
     const todoDate = new Date();
 
-    const response = await request(app)
+    const res = await request(app)
       .post('/todos')
       .send({
         title: 'test todo',
@@ -52,13 +52,13 @@ describe('Todos', () => {
       .set('username', userResponse.body.username)
       .expect(201);
 
-    expect(response.body).toMatchObject({
+    expect(res.body).toMatchObject({
       title: 'test todo',
       deadline: todoDate.toISOString(),
       done: false
     });
-    expect(validate(response.body.id)).toBe(true);
-    expect(response.body.created_at).toBeTruthy();
+    expect(validate(res.body.id)).toBe(true);
+    expect(res.body.created_at).toBeTruthy();
   });
 
   it('should be able to update a todo', async () => {
@@ -198,11 +198,11 @@ describe('Todos', () => {
         username: 'user6'
       });
 
-    const response = await request(app)
+    const res = await request(app)
       .delete('/todos/invalid-todo-id')
       .set('username', userResponse.body.username)
       .expect(404);
 
-    expect(response.body.error).toBeTruthy();
+    expect(res.body.error).toBeTruthy();
   });
 });

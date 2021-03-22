@@ -5,7 +5,7 @@ const app = require('../');
 
 describe('Users', () => {
   it('should be able to create a new user', async () => {
-    const response = await request(app)
+    const res = await request(app)
       .post('/users')
       .send({
         name: 'John Doe',
@@ -13,9 +13,9 @@ describe('Users', () => {
       })
     expect(201);
 
-    expect(validate(response.body.id)).toBe(true);
+    expect(validate(res.body.id)).toBe(true);
 
-    expect(response.body).toMatchObject({
+    expect(res.body).toMatchObject({
       name: 'John Doe',
       username: 'johndoe',
       todos: []
@@ -30,7 +30,7 @@ describe('Users', () => {
         username: 'johndoe'
       });
 
-    const response = await request(app)
+    const res = await request(app)
       .post('/users')
       .send({
         name: 'John Doe',
@@ -38,6 +38,6 @@ describe('Users', () => {
       })
       .expect(400);
 
-    expect(response.body.error).toBeTruthy();
+    expect(res.body.error).toBeTruthy();
   });
 });
